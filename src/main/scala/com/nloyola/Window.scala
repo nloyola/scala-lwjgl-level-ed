@@ -1,5 +1,6 @@
 package com.nloyola
 
+import com.nloyola.scenes._
 import org.lwjgl._
 import org.lwjgl.glfw._
 import org.lwjgl.opengl._
@@ -7,19 +8,49 @@ import org.lwjgl.glfw.Callbacks._
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.opengl.GL11._
 import org.lwjgl.system.MemoryUtil._
-import scala.Console
 
-object HelloWorld {
+object Window {
   val width = 1920
   val height = 1080
   val title = "LWJGL"
+  var currentScene: Option[Scene] = None
 
   def main(args: Array[String]): Unit = {
-    new HelloWorld().run()
+    val window = new Window
+    window.run
+  }
+
+  def getScene(): Scene = {
+    currentScene match {
+      case Some(s) => s
+      case _ => throw new Error(s"Scene not assigned")
+    }
+  }
+
+  def changeScene(newScene: Int): Unit = {
+    newScene match {
+      case 0 => currentScene = Some(new LevelEditorScene)
+      case 1 => currentScene = Some(new LevelScene)
+      case _ => throw new Error(s"Unknown scene: $newScene")
+    }
+
+    currentScene.foreach { s =>
+      s.init
+      s.start
+    }
+  }
+
+  def updateScene(dt: Float): Unit = {
+    currentScene.foreach { s =>
+      s.update(dt)
+    }
+
   }
 }
 
-class HelloWorld { // The window handle
+class Window { // The window handle
+  import Window._
+
   private var window = 0L
 
   def run(): Unit = {
@@ -33,6 +64,7 @@ class HelloWorld { // The window handle
     glfwTerminate
     glfwSetErrorCallback(null).free
   }
+
 
   private def init(): Unit = {
     // Setup an error callback. The default implementation
@@ -50,19 +82,19 @@ class HelloWorld { // The window handle
     glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE) // the window will be resizable
 
     // Create the window
-    window = glfwCreateWindow(HelloWorld.width, HelloWorld.height, HelloWorld.title, NULL, NULL)
+    window = glfwCreateWindow(width, height, title, NULL, NULL)
     if (window == NULL) {
       throw new IllegalStateException("Failed to create the GLFW window.");
     }
 
-    // Setup a key callback. It will be called every time a key is pressed, repeated or released.
-    glfwSetKeyCallback(
-      window,
-      (window: Long, key: Int, scancode: Int, action: Int, mods: Int) => {
-        if ((key == GLFW_KEY_ESCAPE) && (action == GLFW_RELEASE)) {
-          glfwSetWindowShouldClose(window, true)
-        }
-      })
+    // // Setup a key callback. It will be called every time a key is pressed, repeated or released.
+    // glfwSetKeyCallback(
+    //   window,
+    //   (window: Long, key: Int, scancode: Int, action: Int, mods: Int) => {
+    //     if ((key == GLFW_KEY_ESCAPE) && (action == GLFW_RELEASE)) {
+    //       glfwSetWindowShouldClose(window, true)
+    //     }
+    //   })
 
     glfwSetCursorPosCallback(window, MouseListener.mousePosCallback);
     glfwSetMouseButtonCallback(window, MouseListener.mouseButtonCallback);
@@ -82,10 +114,23 @@ class HelloWorld { // The window handle
     // creates the GLCapabilities instance and makes the OpenGL
     // bindings available for use.
     GL.createCapabilities
-    ()
+
+    glEnable(GL_BLEND)
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA)
+
+    changeScene(0)
   }
 
   private def loop(): Unit = {
+    val r = 1.0f
+    val b = 1.0f
+    val g = 1.0f
+    val a = 1.0f
+
+    var beginTime = glfwGetTime.toFloat
+    var endTime = 0.0f
+    var dt = -1.0f
+
     // Run the rendering loop until the user has attempted to close
     // the window or has pressed the ESCAPE key.
     while (!glfwWindowShouldClose(window)) {
@@ -93,10 +138,19 @@ class HelloWorld { // The window handle
       // invoked during this call.
       glfwPollEvents
 
-      glClearColor(1.0f, 0.0f, 0.0f, 0.0f)
-      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) // clear the framebuffer
+      glClearColor(r, g, b, a)
+      //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) // clear the framebuffer
+      glClear(GL_COLOR_BUFFER_BIT)
+
+      if (dt >= 0) {
+        updateScene(dt)
+      }
 
       glfwSwapBuffers(window) // swap the color buffers
+
+      endTime = glfwGetTime.toFloat
+      dt = endTime - beginTime
+      beginTime = endTime
     }
   }
 }

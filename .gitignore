@@ -2,3 +2,6 @@ target/
 /.bloop/
 /.metals/
 project/metals.sbt
+/project/.bloop/
+/logs/
+/.idea/
