@@ -24,4 +24,6 @@ class Transform(val position: Vector2f, val scale: Vector2f) {
   }
 
   override def hashCode: Int = 41 * position.hashCode + scale.hashCode
+
+  override def toString: String = s"position: $position, scale: ${scale}"
 }

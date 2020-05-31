@@ -22,6 +22,7 @@ class SpriteRenderer(private var sprite: Sprite, private var color: Vector4f) ex
 
   override def start(): Unit = {
     lastTransform = gameObject.map(go => go.getTransform.copy)
+    //lastTransform.foreach(lt => logger.info(s"last transform: $lt"))
   }
 
   override def update(dt: Float): Unit = {
@@ -30,7 +31,7 @@ class SpriteRenderer(private var sprite: Sprite, private var color: Vector4f) ex
       go <- gameObject
     } yield {
       if (!lt.equals(go.getTransform)) {
-        logger.debug(s"last transform: $lt")
+        logger.info(s"last transform: $lt")
         go.setTransform(lt.copy)
         _isDirty = true
       }
@@ -59,7 +60,7 @@ class SpriteRenderer(private var sprite: Sprite, private var color: Vector4f) ex
 
   def setColor(c: Vector4f): Unit = {
     if (!color.equals(c)) {
-      color    = c
+      color.set(c)
       _isDirty = true
     }
   }

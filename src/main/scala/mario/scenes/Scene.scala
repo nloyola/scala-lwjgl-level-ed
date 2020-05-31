@@ -11,7 +11,7 @@ trait Scene {
   protected val camera: Camera
   protected var isRunning   = false
   protected val gameObjects = ListBuffer.empty[GameObject]
-  protected var activeGameObj: Option[GameObject] = None
+  protected var activeGameObject: Option[GameObject] = None
 
   def init(): Unit
 
@@ -36,11 +36,12 @@ trait Scene {
   def getCamera(): Camera = camera
 
   def sceneImgui(): Unit = {
-    activeGameObj.foreach { go =>
+    activeGameObject.foreach { go =>
       ImGui.begin("Instpector")
       go.imgui();
       ImGui.end
     }
+    imgui()
   }
 
   def imgui(): Unit = {}

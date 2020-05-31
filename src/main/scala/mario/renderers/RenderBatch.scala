@@ -99,9 +99,10 @@ class RenderBatch(private val maxBatchSize: Int, private val zIndex: Int) extend
   def render(): Unit = {
     var rebufferData = false
 
+    //logger.debug(s"render: numSprites: $numSprites")
     (0 until numSprites).foreach { index =>
       val sprite = sprites(index)
-      if (sprite.isDirty()) {
+      if (sprite.isDirty) {
         loadVertexProperties(index)
         sprite.setClean
         rebufferData = true
@@ -110,7 +111,6 @@ class RenderBatch(private val maxBatchSize: Int, private val zIndex: Int) extend
 
     if (rebufferData) {
       glBindBuffer(GL_ARRAY_BUFFER, vboID)
-      logger.debug("vertices: {}", vertices.size)
       logger.debug(s"vertices: " + vertices.take(40).map(_.toString).mkString(", "))
       glBufferSubData(GL_ARRAY_BUFFER, 0, vertices)
     }
@@ -188,12 +188,14 @@ class RenderBatch(private val maxBatchSize: Int, private val zIndex: Int) extend
 
     val color     = sprite.getColor
     val texCoords = sprite.getTexCoords
+    var texId     = 0;
 
-    for {
-      spriteTex <- sprite.getTexture
-      gameObj   <- sprite.gameObject
-    } yield {
-      val texId = textures.indexOf(spriteTex) + 1
+    sprite.getTexture.foreach { tex =>
+      texId = textures.indexOf(tex) + 1
+    }
+
+    sprite.gameObject.foreach { go =>
+      val transform = go.getTransform
 
       // Add vertices with the appropriate properties
       var xAdd = 1.0f
@@ -209,7 +211,6 @@ class RenderBatch(private val maxBatchSize: Int, private val zIndex: Int) extend
         }
 
         // Load position
-        val transform = gameObj.getTransform
         vertices(offset)     = transform.position.x + (xAdd * transform.scale.x)
         vertices(offset + 1) = transform.position.y + (yAdd * transform.scale.y)
 
@@ -226,7 +227,9 @@ class RenderBatch(private val maxBatchSize: Int, private val zIndex: Int) extend
         // Load texture id
         vertices(offset + 8) = texId.toFloat
 
-        logger.debug(s"loadVertexProperties: index: $index, offset: $offset, texId: $texId, texCoords: ${texCoords(i).x}, ${texCoords(i).y}")
+        logger.debug(
+          s"loadVertexProperties: index: $index, offset: $offset, texId: $texId, texCoords: ${texCoords(i).x}, ${texCoords(i).y}"
+        )
 
         offset += VERTEX_SIZE
       }

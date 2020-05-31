@@ -67,7 +67,8 @@ javaOptions ++= {
   if (os == "macos")
     Seq("-XstartOnFirstThread")
   else
-    Seq("-Dorg.lwjgl.util.Debug=true", "-Dorg.lwjgl.util.DebugLoader=true")
+    //Seq("-Dorg.lwjgl.util.Debug=true", "-Dorg.lwjgl.util.DebugLoader=true")
+    Seq("-Dorg.lwjgl.util.Debug=true")
 }
 
 fork in run := true

@@ -1,26 +1,20 @@
 package mario.scenes
 
 import imgui.ImGui
-import mario.Camera
-import mario.GameObject
+import mario.{Camera, GameObject}
 import mario.components.SpriteRenderer
-//import mario.components.Spritesheet
+import mario.components.Spritesheet
 import mario.Transform
 import mario.util.AssetPool
 import org.joml.Vector2f;
+import org.joml.Vector4f;
 import org.slf4j.LoggerFactory
 import mario.components.Sprite
 
 class LevelEditorScene extends Scene {
 
-  //private var gameObj: Option[GameObject]  = None
-  //private var sprites: Option[Spritesheet] = None
-  //private var spriteIndex        = 0
-  //private val spriteFlipTime     = 0.2f
-  //private var spriteFlipTimeLeft = 0f
-  protected val camera = new Camera(new Vector2f(-250, 0))
-
-  private val logger = LoggerFactory.getLogger(this.getClass)
+  protected lazy val camera = new Camera(new Vector2f(-250, 0))
+  private val logger        = LoggerFactory.getLogger(this.getClass)
 
   def init(): Unit = {
     loadResources()
@@ -30,13 +24,11 @@ class LevelEditorScene extends Scene {
     //val sheet = AssetPool.getSpritesheet("assets/images/spritesheet.png")
     //sprites = Some(sheet)
 
-    val obj1 = new GameObject("Object 1", new Transform(new Vector2f(200, 100), new Vector2f(256, 256)), 2)
     //obj1.addComponent(new SpriteRenderer(sheet.getSprite(0)))
-    obj1.addComponent(
-      new SpriteRenderer(new Sprite(Some(AssetPool.getTexture("assets/images/blendImage1.png"))))
-    )
+    val obj1 = new GameObject("Object 1", new Transform(new Vector2f(200, 100), new Vector2f(256, 256)), 2)
+    obj1.addComponent(new SpriteRenderer(new Vector4f(0, 0, 1, 1)))
     addGameObjectToScene(obj1)
-    //gameObj = Some(obj1)
+    activeGameObject = Some(obj1)
 
     val obj2 = new GameObject("Object 2", new Transform(new Vector2f(400, 100), new Vector2f(256, 256)), 1)
     //obj2.addComponent(new SpriteRenderer(sheet.getSprite(7)))
@@ -63,8 +55,8 @@ class LevelEditorScene extends Scene {
   private def loadResources(): Unit = {
     AssetPool.getShader("assets/shaders/default.glsl")
 
-    // val assetName = "assets/images/spritesheet.png"
-    // AssetPool.addSpritesheet(assetName, new Spritesheet(AssetPool.getTexture(assetName), 16, 16, 26, 0));
+    val assetName = "assets/images/spritesheet.png"
+    AssetPool.addSpritesheet(assetName, new Spritesheet(AssetPool.getTexture(assetName), 16, 16, 26, 0));
     ()
   }
 }
