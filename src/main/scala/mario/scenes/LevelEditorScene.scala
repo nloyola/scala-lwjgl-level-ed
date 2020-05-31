@@ -1,5 +1,6 @@
 package mario.scenes
 
+import imgui.ImGui
 import mario.Camera
 import mario.GameObject
 import mario.components.SpriteRenderer
@@ -17,7 +18,7 @@ class LevelEditorScene extends Scene {
   //private var spriteIndex        = 0
   //private val spriteFlipTime     = 0.2f
   //private var spriteFlipTimeLeft = 0f
-  protected val camera           = new Camera(new Vector2f(-250, 0))
+  protected val camera = new Camera(new Vector2f(-250, 0))
 
   private val logger = LoggerFactory.getLogger(this.getClass)
 
@@ -31,15 +32,17 @@ class LevelEditorScene extends Scene {
 
     val obj1 = new GameObject("Object 1", new Transform(new Vector2f(200, 100), new Vector2f(256, 256)), 2)
     //obj1.addComponent(new SpriteRenderer(sheet.getSprite(0)))
-    obj1.addComponent(new SpriteRenderer(
-                        new Sprite(Some(AssetPool.getTexture("assets/images/blendImage1.png")))))
+    obj1.addComponent(
+      new SpriteRenderer(new Sprite(Some(AssetPool.getTexture("assets/images/blendImage1.png"))))
+    )
     addGameObjectToScene(obj1)
     //gameObj = Some(obj1)
 
     val obj2 = new GameObject("Object 2", new Transform(new Vector2f(400, 100), new Vector2f(256, 256)), 1)
     //obj2.addComponent(new SpriteRenderer(sheet.getSprite(7)))
-    obj2.addComponent(new SpriteRenderer(
-                        new Sprite(Some(AssetPool.getTexture("assets/images/blendImage2.png")))))
+    obj2.addComponent(
+      new SpriteRenderer(new Sprite(Some(AssetPool.getTexture("assets/images/blendImage2.png"))))
+    )
     addGameObjectToScene(obj2)
   }
 
@@ -49,6 +52,12 @@ class LevelEditorScene extends Scene {
 
     gameObjects.foreach(_.update(dt))
     renderer.render
+  }
+
+  override def imgui(): Unit = {
+    ImGui.begin("Test window")
+    ImGui.text("Some random text")
+    ImGui.end
   }
 
   private def loadResources(): Unit = {

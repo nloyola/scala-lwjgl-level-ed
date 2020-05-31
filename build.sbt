@@ -1,8 +1,9 @@
 import Dependencies._
 import scala.collection.immutable.Seq
 
-lazy val lwjglVersion = "3.2.1"
+lazy val lwjglVersion = "3.2.3"
 lazy val jomlVersion  = "1.9.24"
+lazy val imguiVersion = "1.76-0.9"
 
 lazy val os = Option(System.getProperty("os.name", ""))
   .map(_.substring(0, 3).toLowerCase) match {
@@ -22,6 +23,8 @@ ThisBuild / version          := "0.1.0-SNAPSHOT"
 ThisBuild / organization     := "mario"
 ThisBuild / organizationName := "scala-lwjgl"
 
+resolvers += Resolver.jcenterRepo
+
 libraryDependencies ++=
   Seq(scalaTest                    % Test,
       "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2",
@@ -38,6 +41,9 @@ libraryDependencies ++=
       "org.lwjgl"                  % "lwjgl-assimp" % lwjglVersion classifier s"natives-$os",
       "org.lwjgl"                  % "lwjgl-nanovg" % lwjglVersion classifier s"natives-$os",
       "org.joml"                   % "joml" % jomlVersion,
+      "io.imgui.java"              % "binding" % imguiVersion,
+      "io.imgui.java"              % "lwjgl3" % imguiVersion,
+      "io.imgui.java"              % s"natives-$os" % imguiVersion,
       "ch.qos.logback"             % "logback-classic" % "1.2.3")
 
 scalacOptions ++=
@@ -61,7 +67,7 @@ javaOptions ++= {
   if (os == "macos")
     Seq("-XstartOnFirstThread")
   else
-    Nil
+    Seq("-Dorg.lwjgl.util.Debug=true", "-Dorg.lwjgl.util.DebugLoader=true")
 }
 
 fork in run := true

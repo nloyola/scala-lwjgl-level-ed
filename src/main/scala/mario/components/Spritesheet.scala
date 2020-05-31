@@ -48,5 +48,7 @@ class Spritesheet(
     logger.debug(s"init: added ${sprites.size} sprites")
   }
 
+  def size(): Int = sprites.size
+
   init
 }

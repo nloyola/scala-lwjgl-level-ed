@@ -19,8 +19,7 @@ class GameObject(private val name: String, private var transform: Transform, zIn
     } map { _.asInstanceOf[T] }
   }
 
-
-  def  removeComponent[T]()(implicit tag: ClassTag[T]): Unit = {
+  def removeComponent[T]()(implicit tag: ClassTag[T]): Unit = {
     components.filter {
       case e: T => true
       case _ => false
@@ -36,6 +35,8 @@ class GameObject(private val name: String, private var transform: Transform, zIn
   def update(dt: Float): Unit = components.foreach(_.update(dt))
 
   def start(): Unit = components.foreach(_.start)
+
+  def imgui(): Unit = components.foreach(_.imgui)
 
   def getTransform(): Transform = transform
 

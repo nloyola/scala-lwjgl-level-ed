@@ -10,10 +10,11 @@ import org.lwjgl.opengl.GL11._
 import org.lwjgl.system.MemoryUtil._
 
 object Window {
-  val width = 1920
-  val height = 1080
-  val title = "LWJGL"
-  var currentScene: Option[Scene] = None
+  var width  = 1920
+  var height = 1080
+  val title  = "LWJGL"
+  var currentScene:       Option[Scene]      = None
+  private var imguiLayer: Option[ImGuiLayer] = None
 
   def main(args: Array[String]): Unit = {
     val window = new Window
@@ -23,7 +24,7 @@ object Window {
   def getScene(): Scene = {
     currentScene match {
       case Some(s) => s
-      case _ => throw new Error(s"Scene not assigned")
+      case _       => throw new Error(s"Scene not assigned")
     }
   }
 
@@ -46,6 +47,14 @@ object Window {
     }
 
   }
+
+  def getWidth(): Int = width
+
+  def setWidth(w: Int): Unit = width = w
+
+  def getHeight(): Int = height
+
+  def setHeight(h: Int): Unit = height = h
 }
 
 class Window { // The window handle
@@ -65,7 +74,6 @@ class Window { // The window handle
     glfwSetErrorCallback(null).free
   }
 
-
   private def init(): Unit = {
     // Setup an error callback. The default implementation
     // will print the error message in System.err.
@@ -84,7 +92,7 @@ class Window { // The window handle
     // Create the window
     window = glfwCreateWindow(width, height, title, NULL, NULL)
     if (window == NULL) {
-      throw new IllegalStateException("Failed to create the GLFW window.");
+      throw new IllegalStateException("Failed to create the GLFW window.")
     }
 
     // // Setup a key callback. It will be called every time a key is pressed, repeated or released.
@@ -96,10 +104,14 @@ class Window { // The window handle
     //     }
     //   })
 
-    glfwSetCursorPosCallback(window, MouseListener.mousePosCallback);
-    glfwSetMouseButtonCallback(window, MouseListener.mouseButtonCallback);
-    glfwSetScrollCallback(window, MouseListener.mouseScrollCallback);
-    glfwSetKeyCallback(window, KeyListener.keyCallback);
+    glfwSetCursorPosCallback(window, MouseListener.mousePosCallback)
+    glfwSetMouseButtonCallback(window, MouseListener.mouseButtonCallback)
+    glfwSetScrollCallback(window, MouseListener.mouseScrollCallback)
+    glfwSetKeyCallback(window, KeyListener.keyCallback)
+    glfwSetWindowSizeCallback(window, (w: Long, newWidth: Int, newHeight: Int) => {
+      setWidth(newWidth)
+      setHeight(newHeight)
+    })
 
     // Make the OpenGL context current
     glfwMakeContextCurrent(window)
@@ -117,6 +129,8 @@ class Window { // The window handle
 
     glEnable(GL_BLEND)
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA)
+    imguiLayer = Some(new ImGuiLayer(window))
+    imguiLayer.foreach(_.initImGui())
 
     changeScene(0)
   }
@@ -128,8 +142,8 @@ class Window { // The window handle
     val a = 1.0f
 
     var beginTime = glfwGetTime.toFloat
-    var endTime = 0.0f
-    var dt = -1.0f
+    var endTime   = 0.0f
+    var dt        = -1.0f
 
     // Run the rendering loop until the user has attempted to close
     // the window or has pressed the ESCAPE key.
@@ -146,11 +160,15 @@ class Window { // The window handle
         updateScene(dt)
       }
 
+      currentScene.foreach { scene =>
+        imguiLayer.foreach(_.update(dt, scene))
+      }
       glfwSwapBuffers(window) // swap the color buffers
 
-      endTime = glfwGetTime.toFloat
-      dt = endTime - beginTime
+      endTime   = glfwGetTime.toFloat
+      dt        = endTime - beginTime
       beginTime = endTime
     }
   }
+
 }

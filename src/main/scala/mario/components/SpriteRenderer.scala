@@ -1,5 +1,6 @@
 package mario.components
 
+import imgui.ImGui;
 import mario.GameObject
 import mario.Transform
 import mario.renderers.Texture
@@ -9,8 +10,8 @@ import org.slf4j.LoggerFactory
 
 class SpriteRenderer(private var sprite: Sprite, private var color: Vector4f) extends Component {
 
-  var gameObject: Option[GameObject] = None
-  var lastTransform: Option[Transform] = None
+  var gameObject:    Option[GameObject] = None
+  var lastTransform: Option[Transform]  = None
   var _isDirty = true
 
   private val logger = LoggerFactory.getLogger(this.getClass)
@@ -37,6 +38,14 @@ class SpriteRenderer(private var sprite: Sprite, private var color: Vector4f) ex
     ()
   }
 
+  override def imgui(): Unit = {
+    val imColors = Array[Float](color.x, color.y, color.z, color.w)
+    if (ImGui.colorPicker4("Color: ", imColors)) {
+      color.set(imColors(0), imColors(1), imColors(2), imColors(3))
+      _isDirty = true
+    }
+  }
+
   def getColor(): Vector4f = color
 
   def getTexture(): Option[Texture] = sprite.getTexture
@@ -44,13 +53,13 @@ class SpriteRenderer(private var sprite: Sprite, private var color: Vector4f) ex
   def getTexCoords(): List[Vector2f] = sprite.getTexCoords
 
   def setSprite(s: Sprite): Unit = {
-    sprite = s
+    sprite   = s
     _isDirty = true
   }
 
   def setColor(c: Vector4f): Unit = {
     if (!color.equals(c)) {
-      color = c
+      color    = c
       _isDirty = true
     }
   }

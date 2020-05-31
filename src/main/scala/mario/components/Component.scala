@@ -8,5 +8,7 @@ trait Component {
 
   def start(): Unit
 
-  def update(dt: Float): Unit
+  def update(dt: Float): Unit = {}
+
+  def imgui(): Unit = {}
 }
