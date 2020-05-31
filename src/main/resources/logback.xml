@@ -18,7 +18,7 @@
     </encoder>
   </appender>
 
-  <logger name="com.nloyola" level="INFO" />
+  <logger name="mario" level="INFO" />
 
   <root level="INFO">
     <appender-ref ref="STDOUT" />

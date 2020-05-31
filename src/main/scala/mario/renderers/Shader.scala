@@ -1,4 +1,4 @@
-package com.nloyola.renderers
+package mario.renderers
 
 import org.joml._
 import org.lwjgl.BufferUtils

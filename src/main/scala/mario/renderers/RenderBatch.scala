@@ -1,8 +1,8 @@
-package com.nloyola.renderers
+package mario.renderers
 
-import com.nloyola.Window
-import com.nloyola.components.SpriteRenderer
-import com.nloyola.util.AssetPool
+import mario.Window
+import mario.components.SpriteRenderer
+import mario.util.AssetPool
 import org.lwjgl.opengl.GL11._
 import org.lwjgl.opengl.GL13._
 import org.lwjgl.opengl.GL15

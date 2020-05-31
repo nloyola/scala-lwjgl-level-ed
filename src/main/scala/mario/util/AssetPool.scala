@@ -1,9 +1,9 @@
-package com.nloyola.util
+package mario.util
 
 import java.io.File
-import com.nloyola.renderers.Shader
-import com.nloyola.renderers.Texture
-import com.nloyola.components.Spritesheet
+import mario.renderers.Shader
+import mario.renderers.Texture
+import mario.components.Spritesheet
 import scala.collection.mutable.Map
 
 object AssetPool {

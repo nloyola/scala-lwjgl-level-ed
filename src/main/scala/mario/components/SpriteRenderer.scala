@@ -1,8 +1,8 @@
-package com.nloyola.components
+package mario.components
 
-import com.nloyola.GameObject
-import com.nloyola.Transform
-import com.nloyola.renderers.Texture
+import mario.GameObject
+import mario.Transform
+import mario.renderers.Texture
 import org.joml.Vector2f
 import org.joml.Vector4f
 import org.slf4j.LoggerFactory

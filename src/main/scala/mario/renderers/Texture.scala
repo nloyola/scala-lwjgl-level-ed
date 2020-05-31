@@ -1,4 +1,4 @@
-package com.nloyola.renderers
+package mario.renderers
 
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11._

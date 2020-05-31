@@ -19,7 +19,7 @@ scalaVersion := Option(System.getProperty("scala.version")).getOrElse("2.13.1")
 
 ThisBuild / scalaVersion     := "2.13.2"
 ThisBuild / version          := "0.1.0-SNAPSHOT"
-ThisBuild / organization     := "com.nloyola"
+ThisBuild / organization     := "mario"
 ThisBuild / organizationName := "scala-lwjgl"
 
 libraryDependencies ++=

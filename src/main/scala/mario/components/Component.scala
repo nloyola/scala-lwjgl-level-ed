@@ -1,6 +1,6 @@
-package com.nloyola.components
+package mario.components
 
-import com.nloyola.GameObject
+import mario.GameObject
 
 trait Component {
 

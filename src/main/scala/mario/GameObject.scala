@@ -1,6 +1,6 @@
-package com.nloyola
+package mario
 
-import com.nloyola.components.Component
+import mario.components.Component
 import scala.collection.mutable.ListBuffer
 import scala.reflect.ClassTag
 

@@ -1,6 +1,6 @@
-package com.nloyola.components
+package mario.components
 
-import com.nloyola.renderers.Texture
+import mario.renderers.Texture
 import org.joml.Vector2f;
 import scala.collection.mutable.ListBuffer
 import org.slf4j.LoggerFactory

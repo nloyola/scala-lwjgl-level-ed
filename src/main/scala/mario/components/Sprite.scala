@@ -1,7 +1,7 @@
-package com.nloyola.components
+package mario.components
 
 import org.joml.Vector2f;
-import com.nloyola.renderers.Texture;
+import mario.renderers.Texture;
 
 class Sprite(private val texture: Option[Texture], private val texCoords: List[Vector2f]) {
 

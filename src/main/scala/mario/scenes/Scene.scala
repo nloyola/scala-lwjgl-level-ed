@@ -1,8 +1,8 @@
-package com.nloyola.scenes
+package mario.scenes
 
-import com.nloyola.Camera
-import com.nloyola.GameObject
-import com.nloyola.renderers.Renderer
+import mario.Camera
+import mario.GameObject
+import mario.renderers.Renderer
 
 import scala.collection.mutable.ListBuffer
 

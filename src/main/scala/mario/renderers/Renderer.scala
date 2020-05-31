@@ -1,7 +1,7 @@
-package com.nloyola.renderers
+package mario.renderers
 
-import com.nloyola.components.SpriteRenderer
-import com.nloyola.GameObject
+import mario.components.SpriteRenderer
+import mario.GameObject
 import scala.collection.mutable.ListBuffer
 import org.slf4j.LoggerFactory
 

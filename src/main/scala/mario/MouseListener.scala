@@ -1,4 +1,4 @@
-package com.nloyola
+package mario
 
 import org.lwjgl.glfw.GLFW.GLFW_PRESS
 import org.lwjgl.glfw.GLFW.GLFW_RELEASE

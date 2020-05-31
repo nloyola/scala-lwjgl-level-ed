@@ -1,6 +1,6 @@
-package com.nloyola
+package mario
 
-import com.nloyola.renderers.Renderer
+import mario.renderers.Renderer
 import scala.collection.mutable.ListBuffer
 
 trait Scene {

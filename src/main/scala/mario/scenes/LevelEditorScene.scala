@@ -1,14 +1,14 @@
-package com.nloyola.scenes
+package mario.scenes
 
-import com.nloyola.Camera
-import com.nloyola.GameObject
-import com.nloyola.components.SpriteRenderer
-//import com.nloyola.components.Spritesheet
-import com.nloyola.Transform
-import com.nloyola.util.AssetPool
+import mario.Camera
+import mario.GameObject
+import mario.components.SpriteRenderer
+//import mario.components.Spritesheet
+import mario.Transform
+import mario.util.AssetPool
 import org.joml.Vector2f;
 import org.slf4j.LoggerFactory
-import com.nloyola.components.Sprite
+import mario.components.Sprite
 
 class LevelEditorScene extends Scene {
 

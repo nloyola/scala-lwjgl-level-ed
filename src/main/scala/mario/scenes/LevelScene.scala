@@ -1,6 +1,6 @@
-package com.nloyola.scenes
+package mario.scenes
 
-import com.nloyola.Camera
+import mario.Camera
 import org.joml.Vector2f;
 
 class LevelScene extends Scene {

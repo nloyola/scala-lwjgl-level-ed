@@ -1,6 +1,6 @@
-package com.nloyola
+package mario
 
-import com.nloyola.scenes._
+import mario.scenes._
 import org.lwjgl._
 import org.lwjgl.glfw._
 import org.lwjgl.opengl._
