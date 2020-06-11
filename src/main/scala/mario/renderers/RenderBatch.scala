@@ -83,7 +83,7 @@ class RenderBatch(private val maxBatchSize: Int, private val zIndex: Int) extend
     sprites(index) = spr
     numSprites     = numSprites + 1
 
-    spr.getTexture.foreach { t =>
+    spr.texture.foreach { t =>
       if (!textures.contains(t)) {
         //logger.debug(s"addSprite: added texture $t")
         textures += t
@@ -186,11 +186,11 @@ class RenderBatch(private val maxBatchSize: Int, private val zIndex: Int) extend
     // Find offset within array (4 vertices per sprite)
     var offset = index * 4 * VERTEX_SIZE
 
-    val color     = sprite.getColor
-    val texCoords = sprite.getTexCoords
+    val color     = sprite.color
+    val texCoords = sprite.texCoords
     var texId     = 0;
 
-    sprite.getTexture.foreach { tex =>
+    sprite.texture.foreach { tex =>
       texId = textures.indexOf(tex) + 1
     }
 

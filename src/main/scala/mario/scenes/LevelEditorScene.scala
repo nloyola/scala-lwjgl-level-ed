@@ -26,15 +26,13 @@ class LevelEditorScene extends Scene {
 
     //obj1.addComponent(new SpriteRenderer(sheet.getSprite(0)))
     val obj1 = new GameObject("Object 1", new Transform(new Vector2f(200, 100), new Vector2f(256, 256)), 2)
-    obj1.addComponent(new SpriteRenderer(new Vector4f(0, 0, 1, 1)))
+    obj1.addComponent(SpriteRenderer(new Vector4f(0, 0, 1, 1)))
     addGameObjectToScene(obj1)
     activeGameObject = Some(obj1)
 
     val obj2 = new GameObject("Object 2", new Transform(new Vector2f(400, 100), new Vector2f(256, 256)), 1)
     //obj2.addComponent(new SpriteRenderer(sheet.getSprite(7)))
-    obj2.addComponent(
-      new SpriteRenderer(new Sprite(Some(AssetPool.getTexture("assets/images/blendImage2.png"))))
-    )
+    obj2.addComponent(SpriteRenderer(Sprite(Some(AssetPool.getTexture("assets/images/blendImage2.png")))))
     addGameObjectToScene(obj2)
   }
 

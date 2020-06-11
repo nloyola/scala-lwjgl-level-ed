@@ -4,8 +4,9 @@ import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11._
 import org.lwjgl.stb.STBImage._
 import org.slf4j.LoggerFactory
+import play.api.libs.json._
 
-class Texture(private val filepath: String) {
+case class Texture(private val filepath: String) {
   private val logger = LoggerFactory.getLogger(this.getClass)
 
   // Generate texture on GPU
@@ -105,5 +106,11 @@ class Texture(private val filepath: String) {
   }
 
   override def toString: String = s"filepath: $filepath, texId: $texID, ($width, $height)"
+
+}
+
+object Texture {
+
+  implicit val textureFormat: Format[Texture] = Json.format[Texture]
 
 }

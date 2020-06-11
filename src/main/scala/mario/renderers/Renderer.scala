@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory
 
 class Renderer {
   private val MAX_BATCH_SIZE = 1000
-  private var batches = ListBuffer.empty[RenderBatch]
-  private val logger = LoggerFactory.getLogger(this.getClass)
+  private var batches        = ListBuffer.empty[RenderBatch]
+  private val logger         = LoggerFactory.getLogger(this.getClass)
 
   def add(obj: GameObject): Unit = {
     obj.getComponent[SpriteRenderer].foreach { spr =>
@@ -19,12 +19,13 @@ class Renderer {
 
   private def add(sprite: SpriteRenderer): Unit = {
     val found = for {
-        go <- sprite.gameObject
-        tex <- sprite.getTexture
-        batch <- batches.find { batch =>
-          batch.hasRoom && (batch.getZIndex == go.getZIndex) && (batch.hasTextureRoom || batch.hasTexture(tex))
-        }
-      } yield batch
+      go  <- sprite.gameObject
+      tex <- sprite.texture
+      batch <- batches.find { batch =>
+                batch.hasRoom && (batch.getZIndex == go.getZIndex) && (batch.hasTextureRoom || batch
+                  .hasTexture(tex))
+              }
+    } yield batch
 
     found match {
       case Some(batch) => batch.addSprite(sprite)

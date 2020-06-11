@@ -1,14 +1,14 @@
 package mario.components
 
 import imgui.ImGui;
-import mario.GameObject
-import mario.Transform
+import mario._
 import mario.renderers.Texture
 import org.joml.Vector2f
 import org.joml.Vector4f
 import org.slf4j.LoggerFactory
+import play.api.libs.json._
 
-class SpriteRenderer(private var sprite: Sprite, private var color: Vector4f) extends Component {
+case class SpriteRenderer(sprite: Sprite, color: Vector4f) extends Component {
 
   var gameObject:    Option[GameObject] = None
   var lastTransform: Option[Transform]  = None
@@ -16,13 +16,8 @@ class SpriteRenderer(private var sprite: Sprite, private var color: Vector4f) ex
 
   private val logger = LoggerFactory.getLogger(this.getClass)
 
-  def this(color: Vector4f) = this(new Sprite(None), color)
-
-  def this(sprite: Sprite) = this(sprite, new Vector4f(1, 1, 1, 1))
-
   override def start(): Unit = {
     lastTransform = gameObject.map(go => go.getTransform.copy)
-    //lastTransform.foreach(lt => logger.info(s"last transform: $lt"))
   }
 
   override def update(dt: Float): Unit = {
@@ -47,16 +42,9 @@ class SpriteRenderer(private var sprite: Sprite, private var color: Vector4f) ex
     }
   }
 
-  def getColor(): Vector4f = color
+  def texture(): Option[Texture] = sprite.texture
 
-  def getTexture(): Option[Texture] = sprite.getTexture
-
-  def getTexCoords(): List[Vector2f] = sprite.getTexCoords
-
-  def setSprite(s: Sprite): Unit = {
-    sprite   = s
-    _isDirty = true
-  }
+  def texCoords(): List[Vector2f] = sprite.texCoords
 
   def setColor(c: Vector4f): Unit = {
     if (!color.equals(c)) {
@@ -70,5 +58,15 @@ class SpriteRenderer(private var sprite: Sprite, private var color: Vector4f) ex
   def setClean(): Unit = _isDirty = false
 
   override def toString: String = s"gameObject: $gameObject, isDirty: ${_isDirty})"
+
+}
+
+object SpriteRenderer {
+
+  def apply(sprite: Sprite): SpriteRenderer = SpriteRenderer(sprite, new Vector4f(1, 1, 1, 1))
+
+  def apply(color: Vector4f): SpriteRenderer = SpriteRenderer(Sprite(None), color)
+
+  implicit val spriteRendererFormat: Format[SpriteRenderer] = Json.format[SpriteRenderer]
 
 }

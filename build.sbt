@@ -1,9 +1,9 @@
-import Dependencies._
 import scala.collection.immutable.Seq
 
 lazy val lwjglVersion = "3.2.3"
 lazy val jomlVersion  = "1.9.24"
 lazy val imguiVersion = "1.76-0.9"
+lazy val playVersion  = "2.8.1"
 
 lazy val os = Option(System.getProperty("os.name", ""))
   .map(_.substring(0, 3).toLowerCase) match {
@@ -11,7 +11,6 @@ lazy val os = Option(System.getProperty("os.name", ""))
   case Some("mac") => "macos"
   case _           => "linux"
 }
-
 name := "scala-lwjgl"
 
 version := "0.1"
@@ -26,25 +25,26 @@ ThisBuild / organizationName := "scala-lwjgl"
 resolvers += Resolver.jcenterRepo
 
 libraryDependencies ++=
-  Seq(scalaTest                    % Test,
-      "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2",
-      "org.lwjgl"                  % "lwjgl" % lwjglVersion,
-      "org.lwjgl"                  % "lwjgl-opengl" % lwjglVersion,
-      "org.lwjgl"                  % "lwjgl-glfw" % lwjglVersion,
-      "org.lwjgl"                  % "lwjgl-stb" % lwjglVersion,
-      "org.lwjgl"                  % "lwjgl-assimp" % lwjglVersion,
-      "org.lwjgl"                  % "lwjgl-nanovg" % lwjglVersion,
-      "org.lwjgl"                  % "lwjgl" % lwjglVersion classifier s"natives-$os",
-      "org.lwjgl"                  % "lwjgl-opengl" % lwjglVersion classifier s"natives-$os",
-      "org.lwjgl"                  % "lwjgl-glfw" % lwjglVersion classifier s"natives-$os",
-      "org.lwjgl"                  % "lwjgl-stb" % lwjglVersion classifier s"natives-$os",
-      "org.lwjgl"                  % "lwjgl-assimp" % lwjglVersion classifier s"natives-$os",
-      "org.lwjgl"                  % "lwjgl-nanovg" % lwjglVersion classifier s"natives-$os",
-      "org.joml"                   % "joml" % jomlVersion,
-      "io.imgui.java"              % "binding" % imguiVersion,
-      "io.imgui.java"              % "lwjgl3" % imguiVersion,
-      "io.imgui.java"              % s"natives-$os" % imguiVersion,
-      "ch.qos.logback"             % "logback-classic" % "1.2.3")
+  Seq("com.typesafe.scala-logging" %% "scala-logging"  % "3.9.2",
+      "org.lwjgl"                  % "lwjgl"           % lwjglVersion,
+      "org.lwjgl"                  % "lwjgl-opengl"    % lwjglVersion,
+      "org.lwjgl"                  % "lwjgl-glfw"      % lwjglVersion,
+      "org.lwjgl"                  % "lwjgl-stb"       % lwjglVersion,
+      "org.lwjgl"                  % "lwjgl-assimp"    % lwjglVersion,
+      "org.lwjgl"                  % "lwjgl-nanovg"    % lwjglVersion,
+      "org.lwjgl"                  % "lwjgl"           % lwjglVersion classifier s"natives-$os",
+      "org.lwjgl"                  % "lwjgl-opengl"    % lwjglVersion classifier s"natives-$os",
+      "org.lwjgl"                  % "lwjgl-glfw"      % lwjglVersion classifier s"natives-$os",
+      "org.lwjgl"                  % "lwjgl-stb"       % lwjglVersion classifier s"natives-$os",
+      "org.lwjgl"                  % "lwjgl-assimp"    % lwjglVersion classifier s"natives-$os",
+      "org.lwjgl"                  % "lwjgl-nanovg"    % lwjglVersion classifier s"natives-$os",
+      "org.joml"                   % "joml"            % jomlVersion,
+      "io.imgui.java"              % "binding"         % imguiVersion,
+      "io.imgui.java"              % "lwjgl3"          % imguiVersion,
+      "io.imgui.java"              % s"natives-$os"    % imguiVersion,
+      "com.typesafe.play"          %% "play-json"      % playVersion,
+      "ch.qos.logback"             % "logback-classic" % "1.2.3",
+      "org.scalatest"              %% "scalatest"      % "3.1.1" % Test)
 
 scalacOptions ++=
   Seq("-deprecation",
