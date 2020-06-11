@@ -195,7 +195,7 @@ class RenderBatch(private val maxBatchSize: Int, private val zIndex: Int) extend
     }
 
     sprite.gameObject.foreach { go =>
-      val transform = go.getTransform
+      val transform = go.transform
 
       // Add vertices with the appropriate properties
       var xAdd = 1.0f

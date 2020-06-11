@@ -1,14 +1,12 @@
 package mario
 
+import mario._
+import play.api.libs.json._
 import org.joml.Vector2f;
 
-class Transform(val position: Vector2f, val scale: Vector2f) {
+case class Transform(val position: Vector2f, val scale: Vector2f) {
 
-  def this() = this(new Vector2f(), new Vector2f())
-
-  def this(position: Vector2f) = this(position, new Vector2f())
-
-  def copy(): Transform = new Transform(new Vector2f(position), new Vector2f(scale))
+  def copy(): Transform = Transform(new Vector2f(position), new Vector2f(scale))
 
   def copy(to: Transform): Unit = {
     to.position.set(this.position)
@@ -26,4 +24,14 @@ class Transform(val position: Vector2f, val scale: Vector2f) {
   override def hashCode: Int = 41 * position.hashCode + scale.hashCode
 
   override def toString: String = s"position: $position, scale: ${scale}"
+}
+
+object Transform {
+
+  def apply(): Transform = Transform(new Vector2f(), new Vector2f())
+
+  def apply(position: Vector2f): Transform = Transform(position, new Vector2f())
+
+  implicit val transformFormat: Format[Transform] = Json.format[Transform]
+
 }

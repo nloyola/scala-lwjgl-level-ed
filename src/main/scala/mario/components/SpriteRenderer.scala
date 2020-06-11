@@ -1,6 +1,6 @@
 package mario.components
 
-import imgui.ImGui;
+import imgui.ImGui
 import mario._
 import mario.renderers.Texture
 import org.joml.Vector2f
@@ -10,14 +10,15 @@ import play.api.libs.json._
 
 case class SpriteRenderer(sprite: Sprite, color: Vector4f) extends Component {
 
+  protected val log      = LoggerFactory.getLogger(this.getClass)
+  protected val typeName = "spriteRenderer"
+
   var gameObject:    Option[GameObject] = None
   var lastTransform: Option[Transform]  = None
   var _isDirty = true
 
-  private val logger = LoggerFactory.getLogger(this.getClass)
-
   override def start(): Unit = {
-    lastTransform = gameObject.map(go => go.getTransform.copy)
+    lastTransform = gameObject.map(go => go.transform.copy)
   }
 
   override def update(dt: Float): Unit = {
@@ -25,10 +26,10 @@ case class SpriteRenderer(sprite: Sprite, color: Vector4f) extends Component {
       lt <- lastTransform
       go <- gameObject
     } yield {
-      if (!lt.equals(go.getTransform)) {
-        logger.info(s"last transform: $lt")
-        go.setTransform(lt.copy)
-        _isDirty = true
+      if (!lt.equals(go.transform)) {
+        log.info(s"last transform: $lt")
+        gameObject = Some(go.copy(transform = lt.copy))
+        _isDirty   = true
       }
     }
     ()

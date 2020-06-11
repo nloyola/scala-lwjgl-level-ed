@@ -36,6 +36,7 @@ object Window {
     }
 
     currentScene.foreach { s =>
+      s.load
       s.init
       s.start
     }
@@ -169,6 +170,8 @@ class Window { // The window handle
       dt        = endTime - beginTime
       beginTime = endTime
     }
+
+    currentScene.foreach(_.saveExit)
   }
 
 }

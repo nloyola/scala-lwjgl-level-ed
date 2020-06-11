@@ -1,5 +1,5 @@
 import play.api.libs.json._
-import org.joml.{Vector2f, Vector4f}
+import org.joml.{Vector2f, Vector3f, Vector4f}
 
 package object mario {
 
@@ -10,15 +10,22 @@ package object mario {
       JsSuccess(new Vector2f((json \ "x").as[Float], (json \ "y").as[Float]))
   }
 
+  implicit val vector3fFormat: Format[Vector3f] = new Format[Vector3f] {
+    override def writes(v: Vector3f): JsValue = Json.obj("x" -> v.x, "y" -> v.y, "z" -> v.z)
+
+    override def reads(json: JsValue): JsResult[Vector3f] =
+      JsSuccess(new Vector3f((json \ "x").as[Float], (json \ "y").as[Float], (json \ "z").as[Float]))
+  }
+
   implicit val vector4fFormat: Format[Vector4f] = new Format[Vector4f] {
     override def writes(v: Vector4f): JsValue = Json.obj("w" -> v.w, "x" -> v.x, "y" -> v.y, "z" -> v.z)
 
     override def reads(json: JsValue): JsResult[Vector4f] =
       JsSuccess(
-        new Vector4f((json \ "w").as[Float],
-                     (json \ "x").as[Float],
+        new Vector4f((json \ "x").as[Float],
                      (json \ "y").as[Float],
-                     (json \ "z").as[Float])
+                     (json \ "z").as[Float],
+                     (json \ "w").as[Float])
       )
   }
 }
