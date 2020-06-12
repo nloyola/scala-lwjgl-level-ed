@@ -32,7 +32,7 @@ trait Component {
           val v           = fieldMirror.get.asInstanceOf[Int]
 
           val imInt = Array[Int](v)
-          if (ImGui.dragInt(fieldName + ": ", imInt)) {
+          if (ImGui.dragInt(s"$fieldName: ", imInt)) {
             fieldMirror.set(imInt(0))
           }
 
@@ -41,7 +41,7 @@ trait Component {
           val v           = fieldMirror.get.asInstanceOf[Float]
 
           val imFloat = Array[Float](v)
-          if (ImGui.dragFloat(fieldName + ": ", imFloat)) {
+          if (ImGui.dragFloat(s"$fieldName: ", imFloat)) {
             fieldMirror.set(imFloat(0))
           }
 
@@ -58,7 +58,7 @@ trait Component {
           val v           = fieldMirror.get.asInstanceOf[Vector3f]
 
           val imVec = Array[Float](v.x, v.y, v.z)
-          if (ImGui.dragFloat3(fieldName + ": ", imVec)) {
+          if (ImGui.dragFloat3(s"$fieldName: ", imVec)) {
             v.set(imVec(0), imVec(1), imVec(2))
           }
 
@@ -66,9 +66,9 @@ trait Component {
           val fieldMirror = instanceMirror.reflectField(field.asTerm)
           val v           = fieldMirror.get.asInstanceOf[Vector4f]
 
-          val imVec = Array[Float](v.x, v.y, v.z)
-          if (ImGui.dragFloat3(fieldName + ": ", imVec)) {
-            v.set(imVec(0), imVec(1), imVec(2))
+          val imVec = Array[Float](v.x, v.y, v.z, v.w)
+          if (ImGui.dragFloat4(s"$fieldName: ", imVec)) {
+            v.set(imVec(0), imVec(1), imVec(2), imVec(3))
           }
 
         case _ =>
