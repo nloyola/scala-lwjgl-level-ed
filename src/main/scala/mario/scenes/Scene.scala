@@ -74,7 +74,11 @@ trait Scene {
           case e:    JsError => logger.error(s"could not read level data: $e")
           case objs: JsSuccess[ListBuffer[GameObject]] =>
             gameObjects.clear
-            gameObjects.addAll(objs.value)
+            objs.value.foreach { go =>
+              addGameObjectToScene(go)
+              go.components.foreach(_.gameObject = Some(go))
+            }
+            levelLoaded = true
         }
       }
     }

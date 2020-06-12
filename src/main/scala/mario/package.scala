@@ -18,7 +18,7 @@ package object mario {
   }
 
   implicit val vector4fFormat: Format[Vector4f] = new Format[Vector4f] {
-    override def writes(v: Vector4f): JsValue = Json.obj("w" -> v.w, "x" -> v.x, "y" -> v.y, "z" -> v.z)
+    override def writes(v: Vector4f): JsValue = Json.obj("x" -> v.x, "y" -> v.y, "z" -> v.z, "w" -> v.w)
 
     override def reads(json: JsValue): JsResult[Vector4f] =
       JsSuccess(

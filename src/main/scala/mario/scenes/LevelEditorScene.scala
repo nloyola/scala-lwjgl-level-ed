@@ -15,12 +15,12 @@ class LevelEditorScene extends Scene {
   private val logger        = LoggerFactory.getLogger(this.getClass)
 
   def init(): Unit = {
+    logger.debug(s"init")
     loadResources()
 
     if (levelLoaded) {
       activeGameObject = Some(gameObjects(0))
     } else {
-      logger.debug(s"init")
 
       //val sheet = AssetPool.getSpritesheet("assets/images/spritesheet.png")
       //sprites = Some(sheet)
@@ -60,6 +60,7 @@ class LevelEditorScene extends Scene {
     AssetPool.addSpritesheet(assetName, new Spritesheet(AssetPool.getTexture(assetName), 16, 16, 26, 0));
 
     AssetPool.getTexture("assets/images/blendImage2.png")
+    AssetPool.getTexture("assets/images/blendImage1.png")
     ()
   }
 }
