@@ -19,15 +19,15 @@ class Spritesheet(
 
   private def init(): Unit = {
     var currentX = 0
-    var currentY = texture.getHeight - spriteHeight
+    var currentY = texture.getHeight() - spriteHeight
 
-    logger.debug(s"init: texHeight: ${texture.getHeight}, spriteHeight: $spriteHeight")
+    logger.debug(s"init: texHeight: ${texture.getHeight()}, spriteHeight: $spriteHeight")
 
     (0 until numSprites).foreach { i =>
-      val topY    = (currentY + spriteHeight) / texture.getHeight.toFloat
-      val rightX  = (currentX + spriteWidth) / texture.getWidth.toFloat
-      val leftX   = currentX / texture.getWidth.toFloat
-      val bottomY = currentY / texture.getHeight.toFloat
+      val topY    = (currentY + spriteHeight) / texture.getHeight().toFloat
+      val rightX  = (currentX + spriteWidth) / texture.getWidth().toFloat
+      val leftX   = currentX / texture.getWidth().toFloat
+      val bottomY = currentY / texture.getHeight().toFloat
 
       val texCoords = List(new Vector2f(rightX, topY),
                            new Vector2f(rightX, bottomY),
@@ -40,7 +40,7 @@ class Spritesheet(
       sprites += sprite
 
       currentX = currentX + spriteWidth + spacing
-      if (currentX >= texture.getWidth) {
+      if (currentX >= texture.getWidth()) {
         currentX = 0
         currentY -= spriteHeight + spacing
       }
@@ -50,5 +50,5 @@ class Spritesheet(
 
   def size(): Int = sprites.size
 
-  init
+  init()
 }

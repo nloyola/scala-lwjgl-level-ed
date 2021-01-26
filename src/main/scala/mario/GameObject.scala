@@ -29,9 +29,9 @@ case class GameObject(name: String, transform: Transform, zIndex: Int, component
 
   def update(dt: Float): Unit = components.foreach(_.update(dt))
 
-  def start(): Unit = components.foreach(_.start)
+  def start(): Unit = components.foreach(_.start())
 
-  def imgui(): Unit = components.foreach(_.imgui)
+  def imgui(): Unit = components.foreach(_.imgui())
 
   def getZIndex(): Int = zIndex
 

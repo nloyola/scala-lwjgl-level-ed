@@ -83,7 +83,7 @@ class RenderBatch(private val maxBatchSize: Int, private val zIndex: Int) extend
     sprites(index) = spr
     numSprites     = numSprites + 1
 
-    spr.texture.foreach { t =>
+    spr.texture().foreach { t =>
       if (!textures.contains(t)) {
         //logger.debug(s"addSprite: added texture $t")
         textures += t
@@ -102,9 +102,9 @@ class RenderBatch(private val maxBatchSize: Int, private val zIndex: Int) extend
     //logger.debug(s"render: numSprites: $numSprites")
     (0 until numSprites).foreach { index =>
       val sprite = sprites(index)
-      if (sprite.isDirty) {
+      if (sprite.isDirty()) {
         loadVertexProperties(index)
-        sprite.setClean
+        sprite.setClean()
         rebufferData = true
       }
     }
@@ -116,15 +116,15 @@ class RenderBatch(private val maxBatchSize: Int, private val zIndex: Int) extend
     }
 
     // Use shader
-    shader.use
-    shader.uploadMat4f("uProjection", Window.getScene.getCamera.getProjectionMatrix)
-    shader.uploadMat4f("uView", Window.getScene.getCamera.getViewMatrix)
+    shader.use()
+    shader.uploadMat4f("uProjection", Window.getScene().getCamera().getProjectionMatrix())
+    shader.uploadMat4f("uView", Window.getScene().getCamera().getViewMatrix())
 
     textures.zipWithIndex.foreach {
       case (t, i) =>
         logger.debug(s"render: index: $i, texture: $t")
         glActiveTexture(GL_TEXTURE0 + i + 1)
-        t.bind
+        t.bind()
     }
     shader.uploadIntArray("uTextures", texSlots)
 
@@ -138,7 +138,7 @@ class RenderBatch(private val maxBatchSize: Int, private val zIndex: Int) extend
     glDisableVertexAttribArray(1)
     glBindVertexArray(0)
 
-    textures.foreach(_.unbind)
+    textures.foreach(_.unbind())
     shader.detach()
 
     //logger.debug("render: done")
@@ -187,10 +187,10 @@ class RenderBatch(private val maxBatchSize: Int, private val zIndex: Int) extend
     var offset = index * 4 * VERTEX_SIZE
 
     val color     = sprite.color
-    val texCoords = sprite.texCoords
+    val texCoords = sprite.texCoords()
     var texId     = 0;
 
-    sprite.texture.foreach { tex =>
+    sprite.texture().foreach { tex =>
       texId = textures.indexOf(tex) + 1
     }
 

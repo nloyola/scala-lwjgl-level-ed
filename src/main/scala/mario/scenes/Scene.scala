@@ -27,7 +27,7 @@ trait Scene {
 
   def start(): Unit = {
     gameObjects.foreach { obj =>
-      obj.start
+      obj.start()
       renderer.add(obj)
     }
     isRunning = true
@@ -36,7 +36,7 @@ trait Scene {
   def addGameObjectToScene(obj: GameObject): Unit = {
     gameObjects += obj
     if (isRunning) {
-      obj.start
+      obj.start()
       renderer.add(obj)
     }
   }
@@ -73,7 +73,7 @@ trait Scene {
         Json.parse(contents).validate[ListBuffer[GameObject]] match {
           case e:    JsError => logger.error(s"could not read level data: $e")
           case objs: JsSuccess[ListBuffer[GameObject]] =>
-            gameObjects.clear
+            gameObjects.clear()
             objs.value.foreach { go =>
               addGameObjectToScene(go)
               go.components.foreach(_.gameObject = Some(go))

@@ -18,7 +18,7 @@ case class SpriteRenderer(sprite: Sprite, color: Vector4f) extends Component {
   var _isDirty = true
 
   override def start(): Unit = {
-    lastTransform = gameObject.map(go => go.transform.copy)
+    lastTransform = gameObject.map(go => go.transform.copy())
   }
 
   override def update(dt: Float): Unit = {
@@ -28,7 +28,7 @@ case class SpriteRenderer(sprite: Sprite, color: Vector4f) extends Component {
     } yield {
       if (!lt.equals(go.transform)) {
         log.info(s"last transform: $lt")
-        gameObject = Some(go.copy(transform = lt.copy))
+        gameObject = Some(go.copy(transform = lt.copy()))
         _isDirty   = true
       }
     }

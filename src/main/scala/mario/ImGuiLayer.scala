@@ -182,8 +182,8 @@ class ImGuiLayer(private val glfwWindow: Long) {
 
   def startFrame(deltaTime: Float): Unit = {
     // Get window properties and mouse position
-    val winWidth  = Array[Float](Window.getWidth.toFloat)
-    val winHeight = Array[Float](Window.getHeight.toFloat)
+    val winWidth  = Array[Float](Window.getWidth().toFloat)
+    val winHeight = Array[Float](Window.getHeight().toFloat)
 
     val mousePosX = Array[Double](0)
     val mousePosY = Array[Double](0)

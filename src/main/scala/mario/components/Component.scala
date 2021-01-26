@@ -86,6 +86,7 @@ object Component {
       val objJson = c match {
         case sc: SpriteRenderer => Json.toJson(sc)
         case rb: RigidBody      => Json.toJson(rb)
+        case _ => JsNull
       }
 
       Json.obj("typeName" -> c.typeName) ++ objJson.as[JsObject]

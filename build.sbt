@@ -15,9 +15,9 @@ name := "scala-lwjgl"
 
 version := "0.1"
 
-scalaVersion := Option(System.getProperty("scala.version")).getOrElse("2.13.1")
+scalaVersion := Option(System.getProperty("scala.version")).getOrElse("2.13.4")
 
-ThisBuild / scalaVersion     := "2.13.2"
+ThisBuild / scalaVersion     := "2.13.4"
 ThisBuild / version          := "0.1.0-SNAPSHOT"
 ThisBuild / organization     := "mario"
 ThisBuild / organizationName := "scala-lwjgl"

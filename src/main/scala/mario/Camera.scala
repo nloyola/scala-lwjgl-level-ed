@@ -7,7 +7,7 @@ import org.joml.Vector3f;
 class Camera(private var position: Vector2f) {
 
   private val projectionMatrix = new Matrix4f
-  private val viewMatrix = new Matrix4f
+  private val viewMatrix       = new Matrix4f
 
   def adjustProjection(): Unit = {
     projectionMatrix.identity
@@ -17,7 +17,7 @@ class Camera(private var position: Vector2f) {
 
   def getViewMatrix(): Matrix4f = {
     val cameraFront = new Vector3f(0.0f, 0.0f, -1.0f)
-    val cameraUp = new Vector3f(0.0f, 1.0f, 0.0f)
+    val cameraUp    = new Vector3f(0.0f, 1.0f, 0.0f)
     viewMatrix.identity
     viewMatrix.lookAt(new Vector3f(position.x, position.y, 20.0f),
                       cameraFront.add(position.x, position.y, 0.0f),
@@ -33,6 +33,6 @@ class Camera(private var position: Vector2f) {
     position.y = position.y + y
   }
 
-  adjustProjection
+  adjustProjection()
 
 }

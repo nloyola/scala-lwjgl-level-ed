@@ -44,7 +44,7 @@ class LevelEditorScene extends Scene {
     // tex.debugTexture(0f, 0f, 1000f, 1000f)
 
     gameObjects.foreach(_.update(dt))
-    renderer.render
+    renderer.render()
   }
 
   override def imgui(): Unit = {

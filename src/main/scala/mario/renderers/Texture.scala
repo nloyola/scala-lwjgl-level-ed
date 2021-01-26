@@ -13,7 +13,7 @@ case class Texture(private val filepath: String) {
 
   private var width  = 0
   private var height = 0
-  private val texID: Int = init
+  private val texID: Int = init()
 
   private def init(): Int = {
     val id = glGenTextures

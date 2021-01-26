@@ -18,7 +18,7 @@ object Window {
 
   def main(args: Array[String]): Unit = {
     val window = new Window
-    window.run
+    window.run()
   }
 
   def getScene(): Scene = {
@@ -36,9 +36,9 @@ object Window {
     }
 
     currentScene.foreach { s =>
-      s.load
-      s.init
-      s.start
+      s.load()
+      s.init()
+      s.start()
     }
   }
 
@@ -170,8 +170,6 @@ class Window { // The window handle
       dt        = endTime - beginTime
       beginTime = endTime
     }
-
-    currentScene.foreach(_.saveExit)
   }
 
 }
