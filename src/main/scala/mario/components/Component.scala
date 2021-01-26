@@ -71,7 +71,7 @@ trait Component {
             v.set(imVec(0), imVec(1), imVec(2), imVec(3))
           }
 
-        case _ =>
+        case _ => // do nothing
       }
 
     }

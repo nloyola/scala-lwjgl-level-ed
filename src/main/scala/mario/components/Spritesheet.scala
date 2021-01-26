@@ -36,7 +36,7 @@ class Spritesheet(
 
       //logger.debug(s"init: $leftX, $topY, $leftX, $bottomY")
 
-      val sprite = new Sprite(Some(texture), texCoords)
+      val sprite = Sprite(spriteWidth, spriteHeight, Some(texture), texCoords)
       sprites += sprite
 
       currentX = currentX + spriteWidth + spacing

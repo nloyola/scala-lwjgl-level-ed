@@ -1,6 +1,6 @@
 package mario.scenes
 
-import imgui.ImGui
+import imgui.{ImGui, ImVec2}
 import mario.{Camera, GameObject}
 import mario.components._
 import mario.Transform
@@ -13,17 +13,17 @@ class LevelEditorScene extends Scene {
 
   protected lazy val camera = new Camera(new Vector2f(-250, 0))
   private val logger        = LoggerFactory.getLogger(this.getClass)
+  private var sprites: Option[Spritesheet] = None
 
   def init(): Unit = {
-    logger.debug(s"init")
+    logger.debug("init")
     loadResources()
+
+    sprites = Some(AssetPool.getSpritesheet("assets/images/spritesheets/decorationsAndBlocks.png"))
 
     if (levelLoaded) {
       activeGameObject = Some(gameObjects(0))
     } else {
-
-      //val sheet = AssetPool.getSpritesheet("assets/images/spritesheet.png")
-      //sprites = Some(sheet)
 
       //obj1.addComponent(new SpriteRenderer(sheet.getSprite(0)))
       val obj1 = GameObject("Object 1", new Transform(new Vector2f(200, 100), new Vector2f(256, 256)), 2)
@@ -49,15 +49,54 @@ class LevelEditorScene extends Scene {
 
   override def imgui(): Unit = {
     ImGui.begin("Test window")
-    ImGui.text("Some random text")
+
+    val windowPos = new ImVec2()
+    ImGui.getWindowPos(windowPos)
+    val windowSize = new ImVec2()
+    ImGui.getWindowSize(windowSize)
+    val itemSpacing = new ImVec2()
+    ImGui.getStyle().getItemSpacing(itemSpacing)
+
+    val windowX2 = windowPos.x + windowSize.x
+
+    sprites.foreach { sheet =>
+      sheet.sprites.zipWithIndex.foreach {
+        case (sprite, index) =>
+          sprite.texId().map { id =>
+            val spriteWidth  = sprite.width * 4
+            val spriteHeight = sprite.height * 4
+            val texCoords    = sprite.texCoords
+
+            ImGui.pushID(index);
+            if (ImGui.imageButton(id,
+                                  spriteWidth.toFloat,
+                                  spriteHeight.toFloat,
+                                  texCoords(0).x,
+                                  texCoords(0).y,
+                                  texCoords(2).x,
+                                  texCoords(2).y)) {
+              logger.info(s"Button $index clicked")
+            }
+            ImGui.popID();
+
+            val lastButtonPos = new ImVec2()
+            ImGui.getItemRectMax(lastButtonPos);
+            val lastButtonX2 = lastButtonPos.x;
+            val nextButtonX2 = lastButtonX2 + itemSpacing.x + spriteWidth
+            if (index + 1 < sheet.size() && nextButtonX2 < windowX2) {
+              ImGui.sameLine();
+            }
+          }
+      }
+    }
     ImGui.end
   }
 
   private def loadResources(): Unit = {
     AssetPool.getShader("assets/shaders/default.glsl")
 
-    val assetName = "assets/images/spritesheet.png"
-    AssetPool.addSpritesheet(assetName, new Spritesheet(AssetPool.getTexture(assetName), 16, 16, 26, 0));
+    val assetName = "assets/images/spritesheets/decorationsAndBlocks.png"
+    AssetPool.addSpritesheet(assetName, new Spritesheet(AssetPool.getTexture(assetName), 16, 16, 81, 0));
 
     AssetPool.getTexture("assets/images/blendImage2.png")
     AssetPool.getTexture("assets/images/blendImage1.png")

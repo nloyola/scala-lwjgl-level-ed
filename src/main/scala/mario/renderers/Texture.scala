@@ -58,6 +58,8 @@ case class Texture(private val filepath: String) {
     id
   }
 
+  def texId() = texID
+
   def bind(): Unit = {
     glBindTexture(GL_TEXTURE_2D, texID)
   }
